@@ -15,7 +15,7 @@ COPY . .
 
 RUN export FLASK_APP=project/__init__.py
 
-CMD ["uwsgi", "--socket", "/tmp/app.sock", \ 
+CMD ["uwsgi", "--socket", "127.0.0.1:3031", \ 
     "--callable", "app", \ 
     "--processes", "4", \
     "--threads", "2", \

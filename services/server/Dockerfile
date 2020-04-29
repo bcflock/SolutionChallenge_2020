@@ -1,7 +1,14 @@
 FROM nginx
 
-COPY nginx.conf /etc/nginx/conf.d
-COPY index.html /var/www/nginx-default/index.html
+RUN apt-get update 
+
+COPY nginx.conf /etc/nginx/
+
+COPY mysite.conf /etc/nginx/sites-enabled/
+
+COPY python_uwsgi.conf /etc/nginx/nginxconfig.io/
+COPY security.conf /etc/nginx/nginxconfig.io/
+COPY general.conf /etc/nginx/nginxconfig.io/
 
 
 ENV NGINX_HOST=localhost
