@@ -1,16 +1,11 @@
 version: "3.0"
 services:
 
-  
-
-
   redis:
     container_name: my_redis
     image: redis
     env_file:
       - ./config/redis.conf
-
-
 
   db:
     container_name: my_db
@@ -26,33 +21,30 @@ services:
     container_name: web_app_sc
     restart: always
     build:
-      context: ./services/web
+      context: ./services/app
       dockerfile: Dockerfile
     env_file:
       - ./config/python.conf
-    volumes:
-       - ./services/web/:/usr/src/app/
     expose:
       - "8000"
       - "5000"
-      - "3031"
+      - "3031" 
+    ports:
+      - "1080:5000"
     depends_on:
       - db
     tty: true
-    #command:  /usr/local/bin/gunicorn -w 2 -b :8000 app:app
-
 
   server:
     container_name: nginx
     restart: always
     build: ./services/server
-    links:
-      - flask:flask
-    volumes:
-      - ./services/server/html:/usr/share/nginx/html
+#    volumes:
+#      - ./services/server/html:/usr/share/nginx/html
     ports:
       - "8080:80"
-      
+    
+
 networks:
   default:
     driver: bridge
